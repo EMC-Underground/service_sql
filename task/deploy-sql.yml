@@ -1,0 +1,39 @@
+---
+resources:
+  - name: service-sql-repo
+    type: git
+    source:
+      uri: https://github.com/EMC-Underground/service_sql.git
+      branch: master
+
+jobs:
+  - name: deploy-sql
+    public: true
+    serial: true
+    plan:
+      - get: service-sql-repo
+        trigger: true
+      - task: deploy-sql
+        params:
+          VAULT_ADDR: ((vault_addr))
+          VAULT_TOKEN: ((root_token))
+          DOCKER_HOST: ((dockerhost))
+
+        config:
+          inputs:
+            - name: service-sql-repo
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: docker/docker
+              tag: latest
+          run:
+            path: sh
+            args:
+            - -c
+            - |
+              cd service-sql-repo
+              docker stack deploy sql -c docker-compose.yml
+
+
