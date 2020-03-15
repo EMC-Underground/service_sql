@@ -12,14 +12,13 @@ jobs:
     serial: true
     plan:
       - get: service-sql-repo
-        trigger: true
       - task: deploy-sql
         params:
           VAULT_ADDR: ((vault_addr))
           VAULT_TOKEN: ((root_token))
           DOCKER_HOST: ((dockerhost))
           DNS_SUFFIX: ((dnssuffix))
-
+          SA_PASSWORD: ((sa_password))
         config:
           inputs:
             - name: service-sql-repo
