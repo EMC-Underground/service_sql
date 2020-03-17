@@ -38,7 +38,7 @@ until [ $state == "complete" ]
             "deploying")
                 state="deploying"
                 service_state=`docker service ps ${stack}_${service} | awk 'FNR == 2 {print $6}'`
-                if [ $service_state == "Running" ]
+                if [ $service_state -eq "Running" ]
                 then
                     state="complete"
                 fi
