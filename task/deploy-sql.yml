@@ -14,8 +14,6 @@ jobs:
       - get: service-sql-repo
       - task: deploy-sql
         params:
-          VAULT_ADDR: ((vault_addr))
-          VAULT_TOKEN: ((root_token))
           DOCKER_HOST: ((dockerhost))
           DNS_SUFFIX: ((dnssuffix))
           SA_PASSWORD: ((sa_password))
@@ -26,10 +24,10 @@ jobs:
           image_resource:
             type: docker-image
             source:
-              repository: docker
+              repository: alpinelinux/docker-cli
               tag: latest
           run:
-            path: sh
+            path: ash
             args:
             - -c
             - |
