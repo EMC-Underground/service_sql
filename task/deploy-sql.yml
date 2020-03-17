@@ -27,7 +27,7 @@ jobs:
               repository: alpinelinux/docker-cli
               tag: latest
           run:
-            path: ash
+            path: sh
             args:
             - -c
             - |
@@ -69,7 +69,7 @@ jobs:
                           "deploying")
                               state="deploying"
                               service_state=`docker service ps ${stack}_${service} | awk 'FNR == 2 {print $6}'`
-                              if [ $service_state -eq "Running" ]
+                              if [ $service_state == "Running" ]
                               then
                                   state="complete"
                               fi
