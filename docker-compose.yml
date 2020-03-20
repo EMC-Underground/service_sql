@@ -1,23 +1,27 @@
 version: "3.4"
 
 services:
-
   sql-server-db:
     image: microsoft/mssql-server-linux:2017-latest
     networks:
       - "traefik-net"
-    ports:
-      - "1433:1433"
     environment:
       SA_PASSWORD: "${SA_PASSWORD}"
       ACCEPT_EULA: "Y"
+    volumes:
+      - sql-server-db:/var/lib/sql_server/data
     deploy:
       labels:
-        - "traefik.frontend.rule=Host:sql.${DNS_SUFFIX}"
-        - "traefik.port=8080"
+        - "traefik.frontend.rule=Host:${BRANCH_NAME}.${DNS_SUFFIX}"
+        - "traefik.port=1433"
         - "traefik.docker.network=traefik-net"
         - "traefik.enable=true"
 
+volumes:
+  sql-server-db:
+    driver: rexray/scaleio
+    driver_opts:
+      size: 20
 
 networks:
   traefik-net:
