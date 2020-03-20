@@ -36,12 +36,12 @@ endif
 #endif
 
 build: build-network
-	@docker stack deploy -c docker-compose.yml mssql
+	@docker stack deploy -c docker-compose.yml ${BRANCH_NAME}_mssql
 
 refresh: destroy build
 
 destroy:
-	@docker stack rm mssql
+	@docker stack rm ${BRANCH_NAME}_mssql
 	@sleep 2
 
 destroy-all: destroy
