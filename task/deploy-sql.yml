@@ -15,7 +15,6 @@ jobs:
       - task: deploy-sql
         params:
           DOCKER_HOST: ((dockerhost))
-          DNS_SUFFIX: ((dnssuffix))
           BRANCH_NAME: ((branch_name))
           SA_PASSWORD: ((SA_PASSWORD))
         config:
