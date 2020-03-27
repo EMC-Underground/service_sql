@@ -19,21 +19,6 @@ ifeq (echo $(network_exists), 1)
 	@docker network create --driver=overlay traefik-net
 endif
 
-#check-secrets:
-#ifndef BRANCH_NAME
-#	$(error env var BRANCH_NAME is not set)
-#endif
-#ifndef SA_PASSWORD
-#	$(error env var SA_PASSWORD is not set)
-#endif
-
-#create-secrets: check-secrets
-#ifeq (echo $(user_exists), 1)
-#	@echo ${BRANCH_NAME} | docker secret create basic-auth-user -
-#endif
-#ifeq (echo $(password_exists), 1)
-#	@echo ${SA_PASSWORD} | docker secret create basic-auth-password -
-#endif
 
 build: build-network
 	@docker stack deploy -c docker-compose.yml ${BRANCH_NAME}_mssql

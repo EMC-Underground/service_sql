@@ -3,6 +3,8 @@ version: "3.4"
 services:
   sql-server-db:
     image: microsoft/mssql-server-linux:2017-latest
+    ports:
+      - :1433
     networks:
       - "traefik-net"
     environment:
@@ -10,12 +12,7 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - sql-server-db:/var/lib/sql_server/data
-    deploy:
-      labels:
-        - "traefik.frontend.rule=Host:${BRANCH_NAME}.${DNS_SUFFIX}"
-        - "traefik.port=1433"
-        - "traefik.docker.network=traefik-net"
-        - "traefik.enable=true"
+
 
 volumes:
   sql-server-db:
