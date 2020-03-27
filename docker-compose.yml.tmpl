@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  {{env['docker_service']}}:
+    image: microsoft/mssql-server-linux:2017-latest
+    ports:
+      - :1433
+    environment:
+      SA_PASSWORD: "Password#1"
+      ACCEPT_EULA: "Y"
+    {% if env['persistence_driver']|length -%}
+    volumes:
+      - {{env['docker_service']}}-data:/var/lib/sql_server/data
+    {%+ endif -%}
+
+{% if env['persistence_driver']|length -%}
+volumes:
+  {{env['docker_service']}}-data:
+    {% if env['persistence_driver'] == "vxflex" -%}
+    driver: rexray/scaleio
+    driver_opts:
+      size: 20
+{% elif env['persistence_driver'] == "nfs" -%}
+    driver: local
+    driver_opts:
+      type: nfs
+      o: {{env['nfs_server']}},rw
+      device: ":{{env['nfs_share']}}/object"
+{% endif %}
+{%+ endif -%}
