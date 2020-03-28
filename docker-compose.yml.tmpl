@@ -8,19 +8,19 @@ services:
     environment:
       SA_PASSWORD: "Password#1"
       ACCEPT_EULA: "Y"
-    {% if env['persistence_driver']|length -%}
+    {% if env['PERSISTENCE_DRIVER']|length -%}
     volumes:
       - {{env['docker_service']}}-data:/var/lib/sql_server/data
     {%+ endif -%}
 
-{% if env['persistence_driver']|length -%}
+{% if env['PERSISTENCE_DRIVER']|length -%}
 volumes:
   {{env['docker_service']}}-data:
-    {% if env['persistence_driver'] == "vxflex" -%}
+    {% if env['PERSISTENCE_DRIVER'] == "vxflex" -%}
     driver: rexray/scaleio
     driver_opts:
       size: 20
-{% elif env['persistence_driver'] == "nfs" -%}
+{% elif env['PERSISTENCE_DRIVER'] == "nfs" -%}
     driver: local
     driver_opts:
       type: nfs

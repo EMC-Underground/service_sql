@@ -19,14 +19,13 @@ ifeq (echo $(network_exists), 1)
 	@docker network create --driver=overlay traefik-net
 endif
 
-
 build: build-network
-	@docker stack deploy -c docker-compose.yml ${BRANCH_NAME}_mssql
+	@docker stack deploy -c docker-compose.yml ${BRANCH_NAME}_sql
 
 refresh: destroy build
 
 destroy:
-	@docker stack rm ${BRANCH_NAME}_mssql
+	@docker stack rm ${BRANCH_NAME}_sql
 	@sleep 2
 
 destroy-all: destroy
