@@ -11,9 +11,9 @@ services:
     {% if env['PERSISTENCE_DRIVER']|length -%}
     volumes:
       - {{env['docker_service']}}-data:/var/lib/sql_server/data
-    {%+ endif -%}
+    {% endif -%}
 
-{% if env['PERSISTENCE_DRIVER']|length -%}
+{% if env['PERSISTENCE_DRIVER']|length %}
 volumes:
   {{env['docker_service']}}-data:
     {% if env['PERSISTENCE_DRIVER'] == "vxflex" -%}
@@ -27,4 +27,4 @@ volumes:
       o: {{env['nfs_server']}},rw
       device: ":{{env['nfs_share']}}/object"
 {% endif %}
-{%+ endif -%}
+{% endif -%}
