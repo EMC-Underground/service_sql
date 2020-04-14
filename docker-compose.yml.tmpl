@@ -6,7 +6,7 @@ services:
     ports:
       - :1433
     environment:
-      SA_PASSWORD: "Password#1"
+      SA_PASSWORD: {{env['SA_PASSWORD']}}
       ACCEPT_EULA: "Y"
     {% if env['PERSISTENCE_DRIVER']|length -%}
     volumes:
